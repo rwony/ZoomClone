@@ -14,9 +14,9 @@ function handleOpen() {
 socket.addEventListener("open", handleOpen);
 
 socket.addEventListener("message", (message) => {
-  // const li = document.createElement("li");
-  // li.innerText = `You: ${input.value}`;
-  // messageList.append(li);
+  const li = document.createElement("li");
+  li.innerText = message.data;
+  messageList.append(li);
 });
 
 socket.addEventListener("close", () => {
