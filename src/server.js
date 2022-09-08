@@ -1,7 +1,6 @@
 import http from "http";
-import WebSocket from "ws";
+import SocketIO from "socket.io";
 import express from "express";
-import { parse } from "path";
 
 const app = express();
 app.set("view engine", "pug"); // pug로 view engine 설정
@@ -14,43 +13,60 @@ const handleListen = () => console.log(`Listening on https://localhost:3000`);
 
 // 같은 서버에서 http, ws 모두 작동시키기 : 2개가 같은 port에 있길 원하는 경우
 // http 서버
-const server = http.createServer(app);
+const httpServer = http.createServer(app);
+const wsServer = SocketIO(httpServer);
 
-// websocket 서버 : 이렇게 하면 http서버와 webSocket 서버 둘 다 돌릴 수 있음
-const wss = new WebSocket.Server({ server });
+// connection
+wsServer.on("connection", (socket) => {
+  socket["nickname"] = "Anonymous";
 
-function onSocketClose() {
-  console.log("Disconnected from Browser ❌");
-}
-
-// fake database
-// 누군가 서버에 연결하면 그 connection을 sockets 배열에 넣는다.
-const sockets = [];
+  socket.onAny((event) => {
+    console.log(`Socket Event: ${event}`);
+  });
+  socket.on("enter_room", (roomName, done) => {
+    socket.join(roomName);
+    done();
+    socket.to(roomName).emit("welcome", socket.nickname);
+  });
+  socket.on("disconnecting", () => {
+    socket.rooms.forEach((room) =>
+      socket.to(room).emit("bye", socket.nickname)
+    );
+  });
+  socket.on("new_message", (msg, room, done) => {
+    socket.to(room).emit("new_message", `${socket.nickname}: ${msg}`);
+    done();
+  });
+  socket.on("nickname", (nickname) => (socket["nickname"] = nickname));
+});
 
 // message가 Buffer로 오기 때문에 변환 필요
 function converBuffer(msg) {
   return Buffer.from(msg, "base64").toString("utf-8");
 }
 
-wss.on("connection", (socket) => {
-  sockets.push(socket);
-  socket["nickname"] = "Anonymous"; // 익명의 경우를 위해 닉네임 초기화, socket안에 정보를 저장할 수 있음
-  console.log("Connected to Browser 🎀");
+// fake database : 누군가 서버에 연결하면 그 connection을 sockets 배열에 넣는다.
+const sockets = [];
 
-  socket.on("close", onSocketClose);
-  socket.on("message", (msg) => {
-    const convertedMsg = converBuffer(msg);
-    const message = JSON.parse(convertedMsg);
+// wss.on("connection", (socket) => {
+//   sockets.push(socket);
+//   socket["nickname"] = "Anonymous"; // 익명의 경우를 위해 닉네임 초기화, socket안에 정보를 저장할 수 있음
+//   console.log("Connected to Browser 🎀");
 
-    switch (message.type) {
-      case "new_message":
-        sockets.forEach((aSocket) =>
-          aSocket.send(`${socket.nickname}: ${message.payload}`)
-        );
-      case "nickname":
-        socket["nickname"] = message.payload;
-    }
-  });
-});
+//   socket.on("close", onSocketClose);
+//   socket.on("message", (msg) => {
+//     const convertedMsg = converBuffer(msg);
+//     const message = JSON.parse(convertedMsg);
 
-server.listen(3000, handleListen);
+//     switch (message.type) {
+//       case "new_message":
+//         sockets.forEach((aSocket) =>
+//           aSocket.send(`${socket.nickname}: ${message.payload}`)
+//         );
+//       case "nickname":
+//         socket["nickname"] = message.payload;
+//     }
+//   });
+// });
+
+httpServer.listen(3000, handleListen);
