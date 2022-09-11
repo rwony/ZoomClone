@@ -37,13 +37,14 @@ wsServer.on("connection", (socket) => {
     socket.to(room).emit("new_message", `${socket.nickname}: ${msg}`);
     done();
   });
-  socket.on("nickname", (nickname) => (socket["nickname"] = nickname));
+  socket.on("nickname", (nickname, done) => {
+    socket["nickname"] = nickname;
+    done();
+  });
+  socket.on("change_nick", (nickname) => {
+    socket["nickname"] = nickname;
+  });
 });
-
-// message가 Buffer로 오기 때문에 변환 필요
-function converBuffer(msg) {
-  return Buffer.from(msg, "base64").toString("utf-8");
-}
 
 // fake database : 누군가 서버에 연결하면 그 connection을 sockets 배열에 넣는다.
 const sockets = [];
