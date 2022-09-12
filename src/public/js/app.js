@@ -30,7 +30,7 @@ function handleMessageSubmit(event) {
 function handleNicknameSubmit(event) {
   event.preventDefault();
   const input = nick.querySelector("#nick input");
-  socket.emit("nickname", input.value, showRoom);
+  socket.emit("nickname", roomName, input.value, showRoom);
   input.value = "";
 }
 
@@ -91,3 +91,7 @@ socket.on("bye", (left) => {
 });
 
 socket.on("new_message", addMessage);
+
+socket.on("change_nick", (originalNick, newNick) => {
+  addMessage(`${originalNick} changed to ${newNick}`);
+});

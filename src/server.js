@@ -26,7 +26,7 @@ wsServer.on("connection", (socket) => {
   socket.on("enter_room", (roomName, done) => {
     socket.join(roomName);
     done();
-    socket.to(roomName).emit("welcome", socket.nickname);
+    // socket.to(roomName).emit("welcome", socket.nickname);
   });
   socket.on("disconnecting", () => {
     socket.rooms.forEach((room) =>
@@ -37,12 +37,15 @@ wsServer.on("connection", (socket) => {
     socket.to(room).emit("new_message", `${socket.nickname}: ${msg}`);
     done();
   });
-  socket.on("nickname", (nickname, done) => {
+  socket.on("nickname", (roomName, nickname, done) => {
     socket["nickname"] = nickname;
     done();
+    socket.to(roomName).emit("welcome", socket.nickname);
   });
   socket.on("change_nick", (nickname) => {
+    const originalNick = socket["name"];
     socket["nickname"] = nickname;
+    socket.to(nickname).emit("change_nick", originalNick, nickname);
   });
 });
 
