@@ -33,8 +33,8 @@ wsServer.on("connection", (socket) => {
       socket.to(room).emit("bye", socket.nickname)
     );
   });
-  socket.on("new_message", (msg, room, done) => {
-    socket.to(room).emit("new_message", `${socket.nickname}: ${msg}`);
+  socket.on("new_message", (msg, roomName, done) => {
+    socket.to(roomName).emit("new_message", `${socket.nickname}: ${msg}`);
     done();
   });
   socket.on("nickname", (roomName, nickname, done) => {
@@ -42,10 +42,13 @@ wsServer.on("connection", (socket) => {
     done();
     socket.to(roomName).emit("welcome", socket.nickname);
   });
-  socket.on("change_nick", (nickname) => {
-    const originalNick = socket["name"];
+  socket.on("change_nick", (roomName, nickname, done) => {
+    const originalNick = socket["nickname"];
     socket["nickname"] = nickname;
-    socket.to(nickname).emit("change_nick", originalNick, nickname);
+    socket
+      .to(roomName)
+      .emit("change_nick", `${originalNick} changed to ${nickname} 😊`);
+    done();
   });
 });
 

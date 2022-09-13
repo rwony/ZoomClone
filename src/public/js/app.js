@@ -10,6 +10,9 @@ nick.hidden = true;
 
 let roomName;
 
+// 닉네임 첫 설정인지 변경인지 알기위한 변수 선언
+let nickFlag = true;
+
 function addMessage(message) {
   const ul = room.querySelector("ul");
   const li = document.createElement("li");
@@ -30,25 +33,28 @@ function handleMessageSubmit(event) {
 function handleNicknameSubmit(event) {
   event.preventDefault();
   const input = nick.querySelector("#nick input");
-  socket.emit("nickname", roomName, input.value, showRoom);
-  input.value = "";
-}
+  const newNick = input.value;
 
-function handleNicknameChange(event) {
-  event.preventDefault();
-  const input = nick.querySelector("#nick input");
-  socket.emit("change_nick", input.value);
-  nick.querySelector("input").value = "";
+  if (nickFlag) {
+    socket.emit("nickname", roomName, input.value, showRoom);
+  } else {
+    socket.emit("change_nick", roomName, input.value, () =>
+      addMessage(`Your nickname changed to ${newNick} 😊`)
+    );
+  }
+
+  nickFlag = false;
+  input.value = "";
 }
 
 function showRoom() {
   room.hidden = false;
 
   const h3 = room.querySelector("h3");
-  h3.innerText = `Room ${roomName}`;
-
   const msgForm = room.querySelector("#msg");
   const nameForm = nick.querySelector("#nick");
+
+  h3.innerText = `Room ${roomName}`;
   msgForm.addEventListener("submit", handleMessageSubmit);
   nameForm.addEventListener("submit", handleNicknameSubmit);
 }
@@ -57,18 +63,11 @@ function showNickNameForm(event) {
   welcome.hidden = true;
   nick.hidden = false;
 
-  // const h3 = room.querySelector("h3");
-  // h3.innerText = `Room ${roomName}`;
-
-  // const msgForm = room.querySelector("#msg");
-  // msgForm.addEventListener("submit", handleMessageSubmit);
-
   const nameForm = nick.querySelector("#nick");
   nameForm.addEventListener("submit", handleNicknameSubmit);
   nick.querySelector("input").value = "";
 }
 
-// click the Enter Room button
 function handleRoomSubmit(event) {
   event.preventDefault();
   const input = form.querySelector("input");
@@ -91,7 +90,4 @@ socket.on("bye", (left) => {
 });
 
 socket.on("new_message", addMessage);
-
-socket.on("change_nick", (originalNick, newNick) => {
-  addMessage(`${originalNick} changed to ${newNick}`);
-});
+socket.on("change_nick", addMessage);
