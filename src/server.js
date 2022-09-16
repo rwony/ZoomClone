@@ -1,5 +1,6 @@
 import http from "http";
-import SocketIO from "socket.io";
+import { Server } from "socket.io";
+const { instrument } = require("@socket.io/admin-ui");
 import express from "express";
 
 const app = express();
@@ -14,7 +15,16 @@ const handleListen = () => console.log(`Listening on https://localhost:3000`);
 // 같은 서버에서 http, ws 모두 작동시키기 : 2개가 같은 port에 있길 원하는 경우
 // http 서버
 const httpServer = http.createServer(app);
-const wsServer = SocketIO(httpServer);
+const wsServer = new Server(httpServer, {
+  cors: {
+    origin: ["https://admin.socket.io"],
+    credentials: true,
+  },
+});
+
+instrument(wsServer, {
+  auth: false,
+});
 
 function publicRooms() {
   const {
@@ -22,6 +32,8 @@ function publicRooms() {
       adapter: { sids, rooms },
     },
   } = wsServer;
+  // const sids = wsServer.sockets.adapter.sids;
+  // const rooms = wsServer.sockets.adapter.rooms;
 
   const publicRooms = [];
   rooms.forEach((_, key) => {
@@ -31,9 +43,11 @@ function publicRooms() {
   });
 
   return publicRooms;
+}
 
-  // const sids = wsServer.sockets.adapter.sids;
-  // const rooms = wsServer.sockets.adapter.rooms;
+// user count
+function countRoom(roomName) {
+  return wsServer.sockets.adapter.rooms.get(roomName)?.size;
 }
 
 // connection
@@ -49,11 +63,11 @@ wsServer.on("connection", (socket) => {
     // socket.to(roomName).emit("welcome", socket.nickname);
 
     // 메세지를 모든 소켓에 보냄
-    wsServer.sockets.emit("room_change", publicRooms());
+    wsServer.sockets.emit("room_change", publicRooms(), countRoom(roomName));
   });
   socket.on("disconnecting", () => {
     socket.rooms.forEach((room) =>
-      socket.to(room).emit("bye", socket.nickname)
+      socket.to(room).emit("bye", socket.nickname, countRoom(room) - 1)
     );
   });
   socket.on("disconnect", () => {
@@ -66,7 +80,7 @@ wsServer.on("connection", (socket) => {
   socket.on("nickname", (roomName, nickname, done) => {
     socket["nickname"] = nickname;
     done();
-    socket.to(roomName).emit("welcome", socket.nickname);
+    socket.to(roomName).emit("welcome", socket.nickname, countRoom(roomName));
   });
   socket.on("change_nick", (roomName, nickname, done) => {
     const originalNick = socket["nickname"];

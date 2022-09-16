@@ -1,5 +1,4 @@
 const socket = io(); // io는 자동적으로 back-end socket.io와 연결해주는 function
-
 const welcome = document.getElementById("welcome");
 const form = welcome.querySelector("form");
 const room = document.getElementById("room");
@@ -51,10 +50,10 @@ function showRoom() {
   room.hidden = false;
 
   const h3 = room.querySelector("h3");
+  h3.innerText = `Room ${roomName}`;
+
   const msgForm = room.querySelector("#msg");
   const nameForm = nick.querySelector("#nick");
-
-  h3.innerText = `Room ${roomName}`;
   msgForm.addEventListener("submit", handleMessageSubmit);
   nameForm.addEventListener("submit", handleNicknameSubmit);
 }
@@ -81,24 +80,30 @@ function handleRoomSubmit(event) {
 
 form.addEventListener("submit", handleRoomSubmit);
 
-socket.on("welcome", (user) => {
+socket.on("welcome", (user, newCount) => {
   addMessage(`${user} arrived. say Hello!`);
 });
 
-socket.on("bye", (left) => {
+socket.on("bye", (left, newCount) => {
+  const h3 = room.querySelector("h3");
+  h3.innerText = `Room ${roomName} (${newCount})`;
+
   addMessage(`${left} left. 😥`);
 });
 
 socket.on("new_message", addMessage);
 socket.on("change_nick", addMessage);
 
-socket.on("room_change", (rooms) => {
+socket.on("room_change", (rooms, newCount) => {
   const roomList = welcome.querySelector("ul");
   roomList.innerHTML = "";
 
-  if (rooms.length === 0) {
-    return;
+  if (newCount !== undefined) {
+    const h3 = room.querySelector("h3");
+    h3.innerText = `Room ${roomName} (${newCount})`;
   }
+
+  if (rooms.length === 0) return;
 
   rooms.forEach((room) => {
     const li = document.createElement("li");
