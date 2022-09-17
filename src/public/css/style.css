@@ -1,0 +1,55 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+KR&display=swap");
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0px;
+  background-color: #cacaca;
+  font-family: "Inter", sans-serif;
+}
+
+ul {
+  list-style: none;
+}
+
+.wrap {
+  position: relative;
+  width: 390px;
+  height: 844px;
+  border-radius: 15px;
+  background-color: #fff;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.wrap header {
+  text-align: center;
+  display: flex;
+}
+.wrap header .left-child {
+  width: 15%;
+}
+.wrap header .left-child span {
+  font-size: 13px;
+  font-weight: 700;
+}
+.wrap header .subject {
+  flex-grow: 1;
+}
+.wrap header .right-child {
+  width: 15%;
+}
+.wrap header .right-child img {
+  width: 13px;
+  margin-right: 5px;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+main input {
+  height: 28px;
+}
+
+/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,63 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+KR&display=swap");
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// Common
+body {
+  @include flex-center;
+  min-height: 100vh;
+  margin: 0px;
+  background-color: #cacaca;
+  font-family: "Inter", sans-serif;
+}
+
+ul {
+  list-style: none;
+}
+
+// wrap
+.wrap {
+  position: relative;
+  width: 390px;
+  height: 844px;
+  border-radius: 15px;
+  background-color: #fff;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+  // header
+  header {
+    text-align: center;
+    display: flex;
+    .left-child {
+      width: 15%;
+      span {
+        font-size: 13px;
+        font-weight: 700;
+      }
+    }
+
+    .subject {
+      flex-grow: 1;
+    }
+
+    .right-child {
+      width: 15%;
+      img {
+        width: 13px;
+        margin-right: 5px;
+      }
+    }
+  }
+}
+
+main {
+  @include flex-center;
+
+  input {
+    height: 28px;
+  }
+}

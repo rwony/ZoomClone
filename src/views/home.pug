@@ -5,35 +5,43 @@ html(lang="en")
     meta(http-equiv="X-UA-Compatible", content="IE=edge")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     title Noom
-    link(rel="stylesheet", href="https://unpkg.com/mvp.css")
-    link(rel="stylesheet", href="../public/css/index.css")
+    //- link(rel="stylesheet", href="https://unpkg.com/mvp.css")
+    link(rel="stylesheet", href="../public/css/style.css")
   body 
-    header
-      h1 Noom
-    main
-      div#welcome
-        h3 What is the room name?
-        form
-          input(placeholder="room name", required, type="text")
-          button Enter Room
-        h4 Open Rooms:
-        ul
+    div.wrap
+      header
+        div.left-child
+          span 08:24
+        div.subject
+          h2 Chat Room
+        div.right-child
+          img(src="../public/assets/phone.png", alt="signal")
+          img(src="../public/assets/wifi.png", alt="wifi")
+          img(src="../public/assets/battery.png", alt="battery")
+      main
+        div#welcome
+          h3 What is the room name?
+          form
+            input(placeholder="room name", required, type="text")
+            button Enter Room
+          h4 Open Rooms:
+          ul
 
-      div#nickname
-        h3 What's your nickname?
-        form#nick
-          input(placeholder="nickname", required, type="text")
-          button Save
+        div#nickname
+          h3 What's your nickname?
+          form#nick
+            input(placeholder="nickname", required, type="text")
+            button Save
 
-      div#room
-        h3
-        ul 
-        //- form#name
-        //-   input(placeholder="nickname", required, type="text")
-        //-   button Save
-        form#msg
-          input(placeholder="message", required, type="text")
-          button Send
+        div#room
+          h3
+          ul 
+          //- form#name
+          //-   input(placeholder="nickname", required, type="text")
+          //-   button Save
+          form#msg
+            input(placeholder="message", required, type="text")
+            button Send
 
     script(src="/socket.io/socket.io.js") 
     script(src="/public/js/app.js") 
