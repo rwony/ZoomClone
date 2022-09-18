@@ -1,5 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+KR&display=swap");
 
+$blue: #3478f6;
+$gray: #ececec;
+$black: #1d1d1d;
+$line-gray: #d9d9d9;
+
+$header-height-px: 93px;
+$input-br-px: 15px;
+
 @mixin flex-center {
   display: flex;
   justify-content: center;
@@ -7,57 +15,135 @@
 }
 
 // Common
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   @include flex-center;
   min-height: 100vh;
-  margin: 0px;
+  box-sizing: border-box;
   background-color: #cacaca;
+  color: $black;
   font-family: "Inter", sans-serif;
 }
 
 ul {
+  padding: 0;
   list-style: none;
+}
+
+li {
+  font-size: 13px;
+}
+
+button {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+input {
+  width: 80%;
+  margin-left: 20px;
+  border: none;
+  outline: none;
+}
+
+.input-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 30px;
+  border: 1px solid $line-gray;
+  border-radius: $input-br-px;
+}
+
+.cm-subject {
+  margin-top: 100px;
 }
 
 // wrap
 .wrap {
   position: relative;
+  display: flex;
+  flex-direction: column;
   width: 390px;
   height: 844px;
-  border-radius: 15px;
+  border-radius: $input-br-px;
   background-color: #fff;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  overflow: hidden;
 
   // header
   header {
-    text-align: center;
     display: flex;
+    padding-top: 11px;
+    height: $header-height-px;
+    text-align: center;
+    font-weight: 700;
+    background-color: #e6e6e6;
+    box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
     .left-child {
       width: 15%;
+      margin-left: 11px;
       span {
         font-size: 13px;
-        font-weight: 700;
       }
     }
 
-    .subject {
+    .title {
+      @include flex-center;
       flex-grow: 1;
+      h2 {
+        font-size: 16px;
+      }
     }
 
     .right-child {
       width: 15%;
+      margin-right: 11px;
       img {
         width: 13px;
         margin-right: 5px;
       }
     }
   }
-}
 
-main {
-  @include flex-center;
+  main {
+    @include flex-center;
+    position: relative;
+    height: calc(100% - $header-height-px);
+    overflow: auto;
 
-  input {
-    height: 28px;
+    #welcome {
+      height: 100%;
+    }
+
+    .room-list {
+      overflow: auto;
+    }
+
+    .subject {
+      @include flex-center;
+      width: 280px;
+      height: 22px;
+      margin-bottom: 20px;
+      border-radius: $input-br-px;
+      background-color: $blue;
+      h4 {
+        font-size: 13px;
+        color: #fff;
+      }
+    }
+
+    button {
+      color: $blue;
+      margin-right: 10px;
+    }
   }
 }

@@ -6,29 +6,37 @@ html(lang="en")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     title Noom
     //- link(rel="stylesheet", href="https://unpkg.com/mvp.css")
+    script(src="https://kit.fontawesome.com/e46f3ffba2.js", crossorigin="anonymous") 
     link(rel="stylesheet", href="../public/css/style.css")
   body 
     div.wrap
       header
         div.left-child
           span 08:24
-        div.subject
-          h2 Chat Room
+        div.title
+          h2 Chat room
         div.right-child
           img(src="../public/assets/phone.png", alt="signal")
           img(src="../public/assets/wifi.png", alt="wifi")
           img(src="../public/assets/battery.png", alt="battery")
       main
         div#welcome
-          h3 What is the room name?
-          form
-            input(placeholder="room name", required, type="text")
-            button Enter Room
-          h4 Open Rooms:
-          ul
+          div.cm-subject
+            div.subject
+              h4 What is the room name?
+            form
+              div.input-wrap
+                input(placeholder="room name", required, type="text")
+                button(role="button")
+                  i.fa-solid.fa-paper-plane(aria-hidden="true")
+          div.cm-subject.room-list
+            div.subject
+              h4 Open Rooms
+            ul
 
         div#nickname
-          h3 What's your nickname?
+          div.subject
+            h4 What's your nickname?
           form#nick
             input(placeholder="nickname", required, type="text")
             button Save
