@@ -13,6 +13,8 @@ html(lang="en")
       header
         div.left-child
           span 08:24
+          button.home-btn(role="button")
+            i.fa-solid.fa-house(aria-hidden="true")
         div.title
           h2 Chat room
         div.right-child
@@ -35,21 +37,22 @@ html(lang="en")
             ul
 
         div#nickname
-          div.subject
-            h4 What's your nickname?
-          form#nick
-            input(placeholder="nickname", required, type="text")
-            button Save
+          div.cm-subject
+            div.subject
+              h4 What's your nickname?
+            form#nick
+              div.input-wrap
+                input(placeholder="nickname", required, type="text")
+                button(role="button")
+                  i.fa-solid.fa-paper-plane(aria-hidden="true")
 
         div#room
-          h3
           ul 
-          //- form#name
-          //-   input(placeholder="nickname", required, type="text")
-          //-   button Save
           form#msg
-            input(placeholder="message", required, type="text")
-            button Send
+            div.input-wrap
+              input(placeholder="message", required, type="text")
+              button(role="button")
+                i.fa-solid.fa-paper-plane(aria-hidden="true")
 
     script(src="/socket.io/socket.io.js") 
     script(src="/public/js/app.js") 

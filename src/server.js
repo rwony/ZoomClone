@@ -60,7 +60,6 @@ wsServer.on("connection", (socket) => {
   socket.on("enter_room", (roomName, done) => {
     socket.join(roomName);
     done();
-    // socket.to(roomName).emit("welcome", socket.nickname);
 
     // 메세지를 모든 소켓에 보냄
     wsServer.sockets.emit("room_change", publicRooms(), countRoom(roomName));
@@ -82,38 +81,6 @@ wsServer.on("connection", (socket) => {
     done();
     socket.to(roomName).emit("welcome", socket.nickname, countRoom(roomName));
   });
-  socket.on("change_nick", (roomName, nickname, done) => {
-    const originalNick = socket["nickname"];
-    socket["nickname"] = nickname;
-    socket
-      .to(roomName)
-      .emit("change_nick", `${originalNick} changed to ${nickname} 😊`);
-    done();
-  });
 });
-
-// fake database : 누군가 서버에 연결하면 그 connection을 sockets 배열에 넣는다.
-const sockets = [];
-
-// wss.on("connection", (socket) => {
-//   sockets.push(socket);
-//   socket["nickname"] = "Anonymous"; // 익명의 경우를 위해 닉네임 초기화, socket안에 정보를 저장할 수 있음
-//   console.log("Connected to Browser 🎀");
-
-//   socket.on("close", onSocketClose);
-//   socket.on("message", (msg) => {
-//     const convertedMsg = converBuffer(msg);
-//     const message = JSON.parse(convertedMsg);
-
-//     switch (message.type) {
-//       case "new_message":
-//         sockets.forEach((aSocket) =>
-//           aSocket.send(`${socket.nickname}: ${message.payload}`)
-//         );
-//       case "nickname":
-//         socket["nickname"] = message.payload;
-//     }
-//   });
-// });
 
 httpServer.listen(3000, handleListen);

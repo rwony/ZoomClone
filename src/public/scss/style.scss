@@ -3,6 +3,7 @@
 $blue: #3478f6;
 $gray: #ececec;
 $black: #1d1d1d;
+$white: #fff;
 $line-gray: #d9d9d9;
 
 $header-height-px: 93px;
@@ -44,6 +45,7 @@ button {
   border: none;
   outline: none;
   background-color: transparent;
+  color: $blue;
   cursor: pointer;
 }
 
@@ -72,8 +74,9 @@ input {
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 390px;
-  height: 844px;
+  min-width: 390px;
+  max-width: 390px;
+  min-height: 844px;
   border-radius: $input-br-px;
   background-color: #fff;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -83,16 +86,23 @@ input {
   header {
     display: flex;
     padding-top: 11px;
+    box-sizing: border-box;
     height: $header-height-px;
-    text-align: center;
     font-weight: 700;
     background-color: #e6e6e6;
     box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
     .left-child {
+      display: flex;
+      flex-direction: column;
       width: 15%;
-      margin-left: 11px;
+      padding-left: 20px;
       span {
         font-size: 13px;
+      }
+      button {
+        width: fit-content;
+        margin-top: 22px;
+        font-size: 16px;
       }
     }
 
@@ -106,7 +116,7 @@ input {
 
     .right-child {
       width: 15%;
-      margin-right: 11px;
+      padding-right: 20px;
       img {
         width: 13px;
         margin-right: 5px;
@@ -116,16 +126,13 @@ input {
 
   main {
     @include flex-center;
+    flex-direction: column;
     position: relative;
     height: calc(100% - $header-height-px);
     overflow: auto;
 
-    #welcome {
-      height: 100%;
-    }
-
-    .room-list {
-      overflow: auto;
+    button {
+      margin-right: 10px;
     }
 
     .subject {
@@ -141,9 +148,46 @@ input {
       }
     }
 
-    button {
-      color: $blue;
-      margin-right: 10px;
+    #welcome {
+      height: 100%;
+      .room-list {
+        height: 450px;
+        overflow: auto;
+      }
+    }
+
+    #nickname {
+      margin-bottom: auto;
+    }
+
+    #room {
+      li {
+        width: fit-content;
+        float: left;
+        padding: 8px;
+        margin-bottom: 10px;
+        border-radius: $input-br-px;
+        background-color: $white;
+        border: 1px solid $line-gray;
+        color: $black;
+        font-weight: 500;
+
+        &.myMessage {
+          border: none;
+          background-color: $blue;
+          color: $white;
+        }
+
+        &.notify {
+          border: none;
+          background-color: $gray;
+          color: $black;
+        }
+      }
+
+      .input-wrap {
+        width: 326px;
+      }
     }
   }
 }

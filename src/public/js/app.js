@@ -3,18 +3,25 @@ const welcome = document.getElementById("welcome");
 const form = welcome.querySelector("form");
 const room = document.getElementById("room");
 const nick = document.getElementById("nickname");
+const title = document.getElementsByClassName("title")[0];
+const homeBtn = document.getElementsByClassName("home-btn")[0];
 
 room.hidden = true;
 nick.hidden = true;
+homeBtn.hidden = true;
 
 let roomName;
 
 // 닉네임 첫 설정인지 변경인지 알기위한 변수 선언
-let nickFlag = true;
 
-function addMessage(message) {
+function addMessage(message, type) {
   const ul = room.querySelector("ul");
   const li = document.createElement("li");
+  if (type === "you") {
+    li.className = "myMessage";
+  } else if (type === "notify") {
+    li.className = "notify";
+  }
   li.innerText = message;
   ul.appendChild(li);
 }
@@ -24,33 +31,23 @@ function handleMessageSubmit(event) {
   const input = room.querySelector("#msg input");
   const value = input.value;
   socket.emit("new_message", input.value, roomName, () => {
-    addMessage(`You: ${value}`);
+    addMessage(value, "you");
   });
   input.value = "";
 }
 
 function handleNicknameSubmit(event) {
   event.preventDefault();
+
   const input = nick.querySelector("#nick input");
-  const newNick = input.value;
-
-  if (nickFlag) {
-    socket.emit("nickname", roomName, input.value, showRoom);
-  } else {
-    socket.emit("change_nick", roomName, input.value, () =>
-      addMessage(`Your nickname changed to ${newNick} 😊`)
-    );
-  }
-
-  nickFlag = false;
+  socket.emit("nickname", roomName, input.value, showRoom);
   input.value = "";
 }
 
 function showRoom() {
+  nick.hidden = true;
+  homeBtn.hidden = false;
   room.hidden = false;
-
-  const h3 = room.querySelector("h3");
-  h3.innerText = `Room ${roomName}`;
 
   const msgForm = room.querySelector("#msg");
   const nameForm = nick.querySelector("#nick");
@@ -60,6 +57,7 @@ function showRoom() {
 
 function showNickNameForm(event) {
   welcome.hidden = true;
+  homeBtn.hidden = false;
   nick.hidden = false;
 
   const nameForm = nick.querySelector("#nick");
@@ -72,35 +70,38 @@ function handleRoomSubmit(event) {
   const input = form.querySelector("input");
 
   // event name, { arguments ..., }, 서버에서 호출하는 function
-  // socket.emit("enter_room", input.value, showRoom);
   socket.emit("enter_room", input.value, showNickNameForm);
   roomName = input.value;
+  title.innerText = roomName;
   input.value = "";
 }
 
+function handleHomeClick() {
+  location.href = "";
+}
+
 form.addEventListener("submit", handleRoomSubmit);
+homeBtn.addEventListener("click", handleHomeClick);
 
 socket.on("welcome", (user, newCount) => {
-  addMessage(`${user} arrived. say Hello!`);
+  title.innerText = `${roomName} (${newCount})`;
+  addMessage(`${user} joined. say Hello 🖐🏻`, "notify");
 });
 
 socket.on("bye", (left, newCount) => {
-  const h3 = room.querySelector("h3");
-  h3.innerText = `Room ${roomName} (${newCount})`;
+  title.innerText = `${roomName} (${newCount})`;
 
-  addMessage(`${left} left. 😥`);
+  addMessage(`${left} left. 😥`, "notify");
 });
 
 socket.on("new_message", addMessage);
-socket.on("change_nick", addMessage);
 
 socket.on("room_change", (rooms, newCount) => {
   const roomList = welcome.querySelector("ul");
   roomList.innerHTML = "";
 
   if (newCount !== undefined) {
-    const h3 = room.querySelector("h3");
-    h3.innerText = `Room ${roomName} (${newCount})`;
+    title.innerText = `${roomName} (${newCount})`;
   }
 
   if (rooms.length === 0) return;
