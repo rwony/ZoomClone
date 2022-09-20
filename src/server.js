@@ -73,7 +73,7 @@ wsServer.on("connection", (socket) => {
     wsServer.sockets.emit("room_change", publicRooms());
   });
   socket.on("new_message", (msg, roomName, done) => {
-    socket.to(roomName).emit("new_message", `${socket.nickname}: ${msg}`);
+    socket.to(roomName).emit("new_message", msg, "someone", socket.nickname);
     done();
   });
   socket.on("nickname", (roomName, nickname, done) => {

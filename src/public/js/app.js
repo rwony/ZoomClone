@@ -12,30 +12,6 @@ homeBtn.hidden = true;
 
 let roomName;
 
-// 닉네임 첫 설정인지 변경인지 알기위한 변수 선언
-
-function addMessage(message, type) {
-  const ul = room.querySelector("ul");
-  const li = document.createElement("li");
-  if (type === "you") {
-    li.className = "myMessage";
-  } else if (type === "notify") {
-    li.className = "notify";
-  }
-  li.innerText = message;
-  ul.appendChild(li);
-}
-
-function handleMessageSubmit(event) {
-  event.preventDefault();
-  const input = room.querySelector("#msg input");
-  const value = input.value;
-  socket.emit("new_message", input.value, roomName, () => {
-    addMessage(value, "you");
-  });
-  input.value = "";
-}
-
 function handleNicknameSubmit(event) {
   event.preventDefault();
 
@@ -80,18 +56,48 @@ function handleHomeClick() {
   location.href = "";
 }
 
+function addMessage(message, type, nickname) {
+  const ul = room.querySelector("ul");
+  const li = document.createElement("li");
+  const div = document.createElement("div");
+  div.className = "nickname";
+
+  if (type !== undefined) li.className = type;
+  if (type === "someone") {
+    div.innerText = nickname;
+    li.appendChild(div);
+
+    const msgDiv = document.createElement("div");
+    msgDiv.innerText = message;
+    li.appendChild(msgDiv);
+  } else {
+    li.innerText = message;
+  }
+
+  ul.appendChild(li);
+}
+
+function handleMessageSubmit(event) {
+  event.preventDefault();
+  const input = room.querySelector("#msg input");
+  const value = input.value;
+  socket.emit("new_message", input.value, roomName, () => {
+    addMessage(value, "myMessage");
+  });
+  input.value = "";
+}
+
 form.addEventListener("submit", handleRoomSubmit);
 homeBtn.addEventListener("click", handleHomeClick);
 
 socket.on("welcome", (user, newCount) => {
   title.innerText = `${roomName} (${newCount})`;
-  addMessage(`${user} joined. say Hello 🖐🏻`, "notify");
+  addMessage(`Welcome ${user}! say Hello 🖐🏻`, "notify");
 });
 
-socket.on("bye", (left, newCount) => {
+socket.on("bye", (user, newCount) => {
   title.innerText = `${roomName} (${newCount})`;
-
-  addMessage(`${left} left. 😥`, "notify");
+  addMessage(`${user} left. 😥`, "notify");
 });
 
 socket.on("new_message", addMessage);
@@ -100,7 +106,7 @@ socket.on("room_change", (rooms, newCount) => {
   const roomList = welcome.querySelector("ul");
   roomList.innerHTML = "";
 
-  if (newCount !== undefined) {
+  if (newCount !== undefined && roomName !== undefined) {
     title.innerText = `${roomName} (${newCount})`;
   }
 

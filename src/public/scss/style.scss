@@ -128,7 +128,8 @@ input {
     @include flex-center;
     flex-direction: column;
     position: relative;
-    height: calc(100% - $header-height-px);
+    // height: calc(100% - $header-height-px);
+    height: 751px;
     overflow: auto;
 
     button {
@@ -161,27 +162,53 @@ input {
     }
 
     #room {
+      height: 100%;
+      .msg-wrap {
+        width: auto;
+        height: 90%;
+        padding: 24px 0;
+        overflow: auto;
+        box-sizing: border-box;
+      }
+
+      ul {
+        display: flex;
+        flex-direction: column;
+      }
+
       li {
         width: fit-content;
-        float: left;
         padding: 8px;
         margin-bottom: 10px;
         border-radius: $input-br-px;
-        background-color: $white;
-        border: 1px solid $line-gray;
-        color: $black;
+        font-size: 13px;
         font-weight: 500;
+        box-shadow: rgba(33, 35, 38, 0.1) 0px 9px 10px -10px;
+
+        &.someone {
+          align-self: flex-start;
+          background-color: $white;
+          border: 1px solid $line-gray;
+          color: $black;
+        }
 
         &.myMessage {
+          align-self: flex-end;
           border: none;
           background-color: $blue;
           color: $white;
         }
 
         &.notify {
+          align-self: center;
           border: none;
           background-color: $gray;
           color: $black;
+        }
+
+        .nickname {
+          margin-bottom: 10px;
+          font-weight: 700;
         }
       }
 

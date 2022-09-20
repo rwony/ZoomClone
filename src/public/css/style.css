@@ -112,7 +112,7 @@ input {
   align-items: center;
   flex-direction: column;
   position: relative;
-  height: calc(100% - 93px);
+  height: 751px;
   overflow: auto;
 }
 .wrap main button {
@@ -142,26 +142,50 @@ input {
 .wrap main #nickname {
   margin-bottom: auto;
 }
+.wrap main #room {
+  height: 100%;
+}
+.wrap main #room .msg-wrap {
+  width: auto;
+  height: 90%;
+  padding: 24px 0;
+  overflow: auto;
+  box-sizing: border-box;
+}
+.wrap main #room ul {
+  display: flex;
+  flex-direction: column;
+}
 .wrap main #room li {
   width: fit-content;
-  float: left;
   padding: 8px;
   margin-bottom: 10px;
   border-radius: 15px;
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: rgba(33, 35, 38, 0.1) 0px 9px 10px -10px;
+}
+.wrap main #room li.someone {
+  align-self: flex-start;
   background-color: #fff;
   border: 1px solid #d9d9d9;
   color: #1d1d1d;
-  font-weight: 500;
 }
 .wrap main #room li.myMessage {
+  align-self: flex-end;
   border: none;
   background-color: #3478f6;
   color: #fff;
 }
 .wrap main #room li.notify {
+  align-self: center;
   border: none;
   background-color: #ececec;
   color: #1d1d1d;
+}
+.wrap main #room li .nickname {
+  margin-bottom: 10px;
+  font-weight: 700;
 }
 .wrap main #room .input-wrap {
   width: 326px;
