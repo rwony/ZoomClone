@@ -139,6 +139,9 @@ input {
   height: 450px;
   overflow: auto;
 }
+.wrap main #welcome .room-list li {
+  margin-bottom: 14px;
+}
 .wrap main #nickname {
   margin-bottom: auto;
 }

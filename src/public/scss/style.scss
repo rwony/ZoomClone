@@ -154,6 +154,9 @@ input {
       .room-list {
         height: 450px;
         overflow: auto;
+        li {
+          margin-bottom: 14px;
+        }
       }
     }
 
