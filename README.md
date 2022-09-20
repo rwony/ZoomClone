@@ -1,9 +1,9 @@
-# ZoomClone
+# Chat room
 
-Zoom Clone using NodeJS, WebRTC and Websockets.
+Chat room using NodeJS, WebRTC, Websockets and socketIO
 
 
-## 사용 언어
+## Languages
 
 - NodeJS
 - JavaScript (ES6)
