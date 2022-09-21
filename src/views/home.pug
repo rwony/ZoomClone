@@ -27,7 +27,7 @@ html(lang="en")
               h4 What is the room name?
             form
               div.input-wrap
-                input(placeholder="room name", required, type="text")
+                input(placeholder="room name", required, type="text", maxlength="30")
                 button(role="button")
                   i.fa-solid.fa-paper-plane(aria-hidden="true")
           div.cm-subject.room-list
@@ -41,7 +41,7 @@ html(lang="en")
               h4 What's your nickname?
             form#nick
               div.input-wrap
-                input(placeholder="nickname", required, type="text")
+                input(placeholder="nickname", required, type="text", maxlength="20")
                 button(role="button")
                   i.fa-solid.fa-paper-plane(aria-hidden="true")
 
