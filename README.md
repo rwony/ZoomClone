@@ -1,7 +1,7 @@
 # Chat room
 Chat room using NodeJS, socketIO
 
-![chatroom](https://user-images.githubusercontent.com/88661435/191409155-b840870c-ec47-493e-93c7-5dfbaf2253c5.gif)
+![chat](https://user-images.githubusercontent.com/88661435/192975161-c9d26ccf-8e63-455d-abd1-980927fba111.gif)
 
 
 ### Languages
