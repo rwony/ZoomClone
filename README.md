@@ -13,7 +13,7 @@ Chat room using NodeJS, socketIO
 
 
 ### Design
-[Link (figma)](https://www.figma.com/file/MEqckmXbM3DNT5RNxOs1Uo/Noom?node-id=2%3A32)
+[Link (figma)](https://www.figma.com/file/aBXjCarrc15boOSvtnF7se/rwony---Chat-room?node-id=101%3A478)
 
 
 ### Screenshot
