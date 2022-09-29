@@ -18,8 +18,8 @@ Chat room using NodeJS, socketIO
 
 ### Screenshot
 
-![main page](https://user-images.githubusercontent.com/88661435/191281375-d8cce78f-cb38-4d9d-8193-2cd97f694ca5.png)
+![main](https://user-images.githubusercontent.com/88661435/192971853-6180fad5-9d8b-4cd7-8c78-ecf36ecc28a8.png)
 
-![nicknamge page](https://user-images.githubusercontent.com/88661435/191281924-556d8e74-ded5-4fb2-a878-2c681e0ed697.png)
+![nickname](https://user-images.githubusercontent.com/88661435/192971326-7e8239f1-b591-49c3-9f36-7eacdb37c6be.png)
 
-![room page](https://user-images.githubusercontent.com/88661435/191282536-d4f31e14-c54c-4ec2-8272-a07844969d1c.png)
+![chat room](https://user-images.githubusercontent.com/88661435/192972374-30a20f0f-1e3a-4da5-904c-967cc823a1ac.png)
