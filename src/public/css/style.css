@@ -12,9 +12,11 @@ body {
   align-items: center;
   min-height: 100vh;
   box-sizing: border-box;
-  background-color: #cacaca;
-  color: #1d1d1d;
+  background-color: #f6f8fa;
+  color: #24292f;
   font-family: "Inter", sans-serif;
+  font-size: 16px;
+  letter-spacing: -0.005em;
 }
 
 ul {
@@ -35,10 +37,12 @@ button {
 }
 
 input {
-  width: 80%;
-  margin-left: 20px;
+  width: 83%;
+  margin-left: 10px;
   border: none;
   outline: none;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
 }
 
 .input-wrap {
@@ -47,7 +51,7 @@ input {
   justify-content: space-between;
   height: 30px;
   border: 1px solid #d9d9d9;
-  border-radius: 15px;
+  border-radius: 10px;
 }
 
 .cm-subject {
@@ -61,14 +65,14 @@ input {
   min-width: 390px;
   max-width: 390px;
   min-height: 844px;
-  border-radius: 15px;
+  border-radius: 10px;
   background-color: #fff;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   overflow: hidden;
 }
 .wrap header {
   display: flex;
-  padding-top: 11px;
+  padding-top: 10px;
   box-sizing: border-box;
   height: 93px;
   font-weight: 700;
@@ -79,7 +83,7 @@ input {
   display: flex;
   flex-direction: column;
   width: 15%;
-  padding-left: 20px;
+  padding-left: 15px;
 }
 .wrap header .left-child span {
   font-size: 13px;
@@ -99,12 +103,19 @@ input {
   font-size: 16px;
 }
 .wrap header .right-child {
+  display: flex;
+  justify-content: flex-end;
+  align-items: baseline;
   width: 15%;
-  padding-right: 20px;
+  padding-right: 15px;
 }
 .wrap header .right-child img {
   width: 13px;
   margin-right: 5px;
+  object-fit: contain;
+}
+.wrap header .right-child img:last-child {
+  margin-right: 0;
 }
 .wrap main {
   display: flex;
@@ -123,14 +134,15 @@ input {
   justify-content: center;
   align-items: center;
   width: 280px;
-  height: 22px;
+  height: 30px;
   margin-bottom: 20px;
-  border-radius: 15px;
+  border-radius: 10px;
   background-color: #3478f6;
 }
 .wrap main .subject h4 {
-  font-size: 13px;
   color: #fff;
+  font-size: 14px;
+  font-weight: 700;
 }
 .wrap main #welcome {
   height: 100%;
@@ -140,7 +152,7 @@ input {
   overflow: auto;
 }
 .wrap main #welcome .room-list li {
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 .wrap main #nickname {
   margin-bottom: auto;
@@ -160,19 +172,33 @@ input {
   flex-direction: column;
 }
 .wrap main #room li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: fit-content;
+  max-width: 280px;
+  min-height: 30px;
+  word-break: break-all;
   padding: 8px;
   margin-bottom: 10px;
-  border-radius: 15px;
+  border-radius: 10px;
   font-size: 13px;
   font-weight: 500;
   box-shadow: rgba(33, 35, 38, 0.1) 0px 9px 10px -10px;
 }
 .wrap main #room li.someone {
+  flex-direction: column;
   align-self: flex-start;
   background-color: #fff;
   border: 1px solid #d9d9d9;
-  color: #1d1d1d;
+  color: #24292f;
+}
+.wrap main #room li.someone > div {
+  align-self: flex-start;
+}
+.wrap main #room li.someone .nickname {
+  margin-bottom: 10px;
+  font-weight: 700;
 }
 .wrap main #room li.myMessage {
   align-self: flex-end;
@@ -184,10 +210,7 @@ input {
   align-self: center;
   border: none;
   background-color: #ececec;
-  color: #1d1d1d;
-}
-.wrap main #room li .nickname {
-  margin-bottom: 10px;
+  color: #24292f;
   font-weight: 700;
 }
 .wrap main #room .input-wrap {

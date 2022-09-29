@@ -2,12 +2,16 @@
 
 $blue: #3478f6;
 $gray: #ececec;
-$black: #1d1d1d;
+$black: #24292f;
 $white: #fff;
-$line-gray: #d9d9d9;
+$br-gray: #d9d9d9;
+$placeholder-text: #b2b3b9;
+$bgc: #f6f8fa;
 
 $header-height-px: 93px;
-$input-br-px: 15px;
+$border-radius: 10px;
+
+$font-family: "Inter", sans-serif;
 
 @mixin flex-center {
   display: flex;
@@ -27,9 +31,11 @@ body {
   @include flex-center;
   min-height: 100vh;
   box-sizing: border-box;
-  background-color: #cacaca;
+  background-color: $bgc;
   color: $black;
-  font-family: "Inter", sans-serif;
+  font-family: $font-family;
+  font-size: 16px;
+  letter-spacing: -0.005em;
 }
 
 ul {
@@ -50,10 +56,12 @@ button {
 }
 
 input {
-  width: 80%;
-  margin-left: 20px;
+  width: 83%;
+  margin-left: 10px;
   border: none;
   outline: none;
+  font-family: $font-family;
+  font-size: 14px;
 }
 
 .input-wrap {
@@ -61,8 +69,8 @@ input {
   align-items: center;
   justify-content: space-between;
   height: 30px;
-  border: 1px solid $line-gray;
-  border-radius: $input-br-px;
+  border: 1px solid $br-gray;
+  border-radius: $border-radius;
 }
 
 .cm-subject {
@@ -77,7 +85,7 @@ input {
   min-width: 390px;
   max-width: 390px;
   min-height: 844px;
-  border-radius: $input-br-px;
+  border-radius: $border-radius;
   background-color: #fff;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   overflow: hidden;
@@ -85,7 +93,7 @@ input {
   // header
   header {
     display: flex;
-    padding-top: 11px;
+    padding-top: 10px;
     box-sizing: border-box;
     height: $header-height-px;
     font-weight: 700;
@@ -95,7 +103,7 @@ input {
       display: flex;
       flex-direction: column;
       width: 15%;
-      padding-left: 20px;
+      padding-left: 15px;
       span {
         font-size: 13px;
       }
@@ -115,11 +123,19 @@ input {
     }
 
     .right-child {
+      display: flex;
+      justify-content: flex-end;
+      align-items: baseline;
       width: 15%;
-      padding-right: 20px;
+      padding-right: 15px;
       img {
         width: 13px;
         margin-right: 5px;
+        object-fit: contain;
+
+        &:last-child {
+          margin-right: 0;
+        }
       }
     }
   }
@@ -139,13 +155,14 @@ input {
     .subject {
       @include flex-center;
       width: 280px;
-      height: 22px;
+      height: 30px;
       margin-bottom: 20px;
-      border-radius: $input-br-px;
+      border-radius: $border-radius;
       background-color: $blue;
       h4 {
-        font-size: 13px;
         color: #fff;
+        font-size: 14px;
+        font-weight: 700;
       }
     }
 
@@ -155,7 +172,7 @@ input {
         height: 450px;
         overflow: auto;
         li {
-          margin-bottom: 14px;
+          margin-bottom: 16px;
         }
       }
     }
@@ -180,19 +197,34 @@ input {
       }
 
       li {
+        @include flex-center;
         width: fit-content;
+        max-width: 280px;
+        min-height: 30px;
+        word-break: break-all;
+        // height: 30px;
         padding: 8px;
         margin-bottom: 10px;
-        border-radius: $input-br-px;
+        border-radius: $border-radius;
         font-size: 13px;
         font-weight: 500;
         box-shadow: rgba(33, 35, 38, 0.1) 0px 9px 10px -10px;
 
         &.someone {
+          flex-direction: column;
           align-self: flex-start;
           background-color: $white;
-          border: 1px solid $line-gray;
+          border: 1px solid $br-gray;
           color: $black;
+
+          & > div {
+            align-self: flex-start;
+          }
+
+          .nickname {
+            margin-bottom: 10px;
+            font-weight: 700;
+          }
         }
 
         &.myMessage {
@@ -207,10 +239,6 @@ input {
           border: none;
           background-color: $gray;
           color: $black;
-        }
-
-        .nickname {
-          margin-bottom: 10px;
           font-weight: 700;
         }
       }
